@@ -109,7 +109,9 @@
             padding: 9px;
             display: none;
         }
-
+        thuy{
+            text-align: center;
+        }
 
 </style>
 </head>
