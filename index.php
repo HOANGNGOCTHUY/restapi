@@ -109,10 +109,6 @@
             padding: 9px;
             display: none;
         }
-        thuy{
-            text-align: center;
-        }
-
 </style>
 </head>
 <body>
@@ -146,11 +142,11 @@
         <!-- ADD -->
         <div id="modal">
         <h2>EDIT</h2>
-        <form action="" id="editForm">
-            Id: <input type="text" name="sid" id="eid" value="" hidden="">
-            Name: <input type="text" name="sname" id="ename" value="">
-            Age: <input type="text" name="sage" id="eage"  value="">
-            City: <input type="text" name="scity" id="ecity"  value="">
+        <form id="editForm">
+            Id: <input type="text" name="sid" id="eid" hidden="">
+            Name: <input type="text" name="sname" id="ename" >
+            Age: <input type="text" name="sage" id="eage" >
+            City: <input type="text" name="scity" id="ecity">
             <input type="submit" name="edit-button" id="edit-button" value="Update">
         </form>
         <div class="close">X</div>
@@ -163,157 +159,12 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <!-- <script>
-        $(document).ready(function(){
-            // Load table
-            function loadTable(){
-                $.ajax({
-                url:"http://localhost/restapi/api-fecth-all.php",
-                type:"GET",
-                // dataType: "JSON",
-                success: function(data){
-                    if(data.status == false){
-                        $("#table-data").append(
-                            "<tr><td><h2>"+data.message+"</h2></td></tr>"
-                        );
-                    }else{
-                        $.each(data,function(key,value){
-                            $("#table-data").append("<tr>"
-                                                    +"<td>"+ value.id + "</td>" +
-                                                    "<td>"+ value.name + "</td>" +
-                                                    "<td>"+ value.age + "</td>" +
-                                                    "<td>"+ value.city + "</td>" +
-                                                    "<td><button class='edit-btn' data-eid='"+value.id+"'>Edit</button></td>" +
-                                                    "<td><button class='delete-btn' data-did='"+value.id+"'>Delete</button></td>"+
-                                                    "</tr>");
-                        })
-                    
-                    }
-                    }
-            });
-            }
-            loadTable();
-            // Show Success or error Messages
-            function message(message, status){
-                if(status == true){
-                    $("#success-msg").html(message).slideDown();
-                    $("#error-msg").slideUp();
-                    setTimeout(function(){
-                        $("#success-msg").slideUp();
-                    },4000);
-                }else if(status == false){
-                    $("#error-msg").html(message).slideDown();
-                    $("#success-msg").slideUp();
-                    setTimeout(function(){
-                        $("#error-msg").slideUp();
-                    },4000);
-                }
-            }
-
-            // function for form data to json object
-            function jsonData(targetForm){
-
-                var arr = $("#addForm").serializeArray();
-                // console.log(arr);
-                var obj = {};
-                for(var a= 0; a < arr.length; a++){
-                    if(arr[a].value == ""){
-                        return false;
-                    }
-                    obj[arr[a].name] = arr[a].value;
-                }
-                // console.log(obj);
-                var json_string = JSON.stringify(obj);
-                // console.log(json_string);
-                return json_string;
-            }
-            
-            // Fetch single record: show modal //dùng id lấy tất cả thông tin của id đó => name, age, city...
-            $(document).on("click",".edit-btn",function(){
-                $("#modal").show();
-                var studentId = $(this).data("eid");
-                var obj = { 
-                    sid: studentId
-                };
-                var myJSON = JSON.stringify(obj);
-
-                $.ajax({
-                    url:"http://localhost/restapi/api-fecth-single.php",
-                    type:"POST",
-                    // dataType: "JSON",
-                    data: myJSON,
-                    success: function(data){
-                        $("#eid").val(data[0].id);
-                        $("#ename").val(data[0].name);
-                        $("#eage").val(data[0].age);
-                        $("#ecity").val(data[0].city);
-                    }
-                })
-                
-            });
-            $(".close").on("click",function(){
-                $("#modal").hide();
-            });
-
-            // INSERT INTO
-            $("#save-button").on("click",function(e){
-                e.preventDefault();
-
-                var jsonObj = jsonData("#addForm");
-                // console.log(jsonObj);
-                if(jsonObj == false){
-                    message("ALL fields are required.", false);
-                }else{
-                    $.ajax({
-                        url:"http://localhost/restapi/api-insert.php",
-                        type: "POST",
-                        data: jsonObj,
-                        success: function(data){
-                            message(data.message,data.status);
-                            if(status == true){
-                                loadTable();
-                                $("#addForm").trigger("reset");
-                            }
-                        }
-                    })
-                    
-                }
-            })
-
-            // Update
-            $("#edit-button").on("click",function(e){
-                e.preventDefault();
-
-                var jsonObj = jsonData("#editForm");
-                // console.log(jsonObj);
-                if(jsonObj == false){
-                    message("ALL fields are required.", false);
-                }else{
-                    $.ajax({
-                        url:"http://localhost/restapi/api-update.php",
-                        type: "POST",
-                        data: jsonObj,
-                        success: function(data){
-                            message(data.message,data.status);
-                            if(status == true){
-                                $("#modal").hide();
-                                loadTable();
-                                $("#addForm").trigger("reset");
-                            }
-                        }
-                    })
-                    
-                }
-            })
-
-        })
-    </script> -->
 
     <script>
         $(document).ready(function(){
             // Load table
             function loadTable(){
-                $("#table-data").html();
+                $("#table-data").html("");
                 $.ajax({
                 url:"http://localhost/restapi/api-fecth-all.php",
                 type:"GET",
@@ -385,7 +236,7 @@
             }
             // FUNCTION FOR FORM DATA TO JSON OBJECT
             function jsonData(targetForm){
-                var arr = $("#addForm").serializeArray(); // Mã hóa một tập hợp các phần tử biểu mẫu dưới dạng một mảng tên và giá trị.
+                var arr = $(targetForm).serializeArray(); // Mã hóa một tập hợp các phần tử biểu mẫu dưới dạng một mảng tên và giá trị.
                 // console.log(arr);
                 var obj = {}; // Tạo object để lưu vào 
                 for(var a = 0; a < arr.length; a++){
@@ -419,10 +270,7 @@
                             if(data.status == true){
                                 loadTable();
                                 $("#addForm").trigger("reset");
-
                             }
-                            
-                            
                         }
                     });
                 }
@@ -433,6 +281,7 @@
 
                 var jsonObj = jsonData("#editForm");
                 console.log(jsonObj);
+
                 if(jsonObj == false){
                     message("ALL fields are required.", false);
                 }else{
@@ -444,17 +293,69 @@
                             message(data.message, data.status);
 
                             if(data.status == true){
+                                $("#modal").hide();
                                 loadTable();
-                                $("#editForm").trigger("reset");
+                                // $("#editForm").trigger("reset");
 
                             }
-                            
-                            
                         }
                     });
                 }
             });
+            // Delete
+            $(document).on("click",".delete-btn", function(){
+                if(confirm("Do you really want to delete this record?")){
+                    var studentId = $(this).data("did");
+                    var obj = { 
+                        sid: studentId
+                    };
+                    var myJSON = JSON.stringify(obj);
 
+                    var row = this;
+                    $.ajax({
+                    url:"http://localhost/restapi/api-delete.php",
+                    type:"POST",
+                    // dataType: "JSON",
+                    data: myJSON,
+                    success: function(data){
+                        message(data.message, data.status);
+
+                        if(data.status == true){
+                            $(row).closest("tr").fadeOut();
+                        }
+                    }
+                    })
+                }
+            });
+            // Search
+            $("#search").on("keyup",function(){
+                var search_term = $(this).val();
+        
+                $("#table-data").html("");
+                $.ajax({
+                        url:'http://localhost/restapi/api-search.php?search='+search_term,
+                        type:"GET",
+                        success: function(data){
+                            if(data.status == false){
+                                $("#table-data").append(
+                                    "<tr><td><h2>"+data.message+"</h2></td></tr>"
+                                );
+                            }else{
+                                $.each(data,function(key,value){
+                                    $("#table-data").append("<tr>"
+                                                            +"<td>"+ value.id + "</td>" +
+                                                            "<td>"+ value.name + "</td>" +
+                                                            "<td>"+ value.age + "</td>" +
+                                                            "<td>"+ value.city + "</td>" +
+                                                            "<td><button class='edit-btn' data-eid='"+value.id+"'>Edit</button></td>" +
+                                                            "<td><button class='delete-btn' data-did='"+value.id+"'>Delete</button></td>"+
+                                                            "</tr>");
+                                })
+                            
+                            }
+                            }
+                    });
+            })
 
 
         })
